@@ -1,11 +1,8 @@
 namespace Tests;
 
 using System;
-using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Medo;
-using System.Diagnostics.Metrics;
-using System.Threading;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]
 public class Otp_Tests {

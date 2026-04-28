@@ -37,8 +37,6 @@ public sealed class CounterBasedOtp : Otp {
     }
 
 
-    #region Setup
-
     private long _counter;
     /// <summary>
     /// Gets/sets counter value.
@@ -51,43 +49,5 @@ public sealed class CounterBasedOtp : Otp {
             _counter = value;
         }
     }
-
-    #endregion Setup
-
-
-    #region Code
-
-    /// <summary>
-    /// Returns code based on the current counter.
-    /// Counter will be automatically increased.
-    /// </summary>
-    public override int GetCode() {
-        var code = CalculateCode(Counter);
-        Counter += 1;
-        return code;
-    }
-
-    #endregion Code
-
-
-    #region Validate
-
-    /// <summary>
-    /// Returns true if code has been validated.
-    /// Counter will increased if code is valid.
-    /// </summary>
-    /// <param name="code">Code to validate.</param>
-    public override bool IsCodeValid(int code) {
-        var currCode = CalculateCode(Counter);
-        var prevCode = CalculateCode(Counter - 1);
-
-        var isCurrValid = (code == currCode);
-        var isPrevValid = (code == prevCode) && (Counter > 0); //don't check previous code if counter is zero; but calculate it anyhow (to keep timing)
-        var isValid = isCurrValid || isPrevValid;
-        if (isValid) { Counter++; }
-        return isValid;
-    }
-
-    #endregion Validate
 
 }

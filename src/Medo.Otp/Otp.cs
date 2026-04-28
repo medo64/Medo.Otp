@@ -4,7 +4,7 @@ namespace Medo;
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using System.Globalization;
 using System.Security.Cryptography;
 
 /// <summary>
@@ -114,7 +114,39 @@ public abstract class Otp : IDisposable {
     /// <summary>
     /// Returns code.
     /// </summary>
-    public abstract int GetCode();
+    public int GetCode() {
+        return CalculateCode(Counter);
+    }
+
+    /// <summary>
+    /// Returns code as text with custom formatting.
+    /// </summary>
+    public string GetCodeAsText() {
+        return GetCodeAsText(CodeOutputFormat.None);
+    }
+
+    /// <summary>
+    /// Returns code as text with custom formatting.
+    /// </summary>
+    /// <param name="format">Format for the code.</param>
+    public string GetCodeAsText(CodeOutputFormat format) {
+        var separator = format switch {
+            CodeOutputFormat.None => "",
+            CodeOutputFormat.Spaced => " ",
+            CodeOutputFormat.Dashed => "-",
+            _ => "",
+        };
+        var code = GetCode();
+        return Digits switch {
+            4 => (code / 100).ToString("D2", CultureInfo.InvariantCulture) + separator + (code % 100).ToString("D2", CultureInfo.InvariantCulture),
+            5 => (code / 1000).ToString("D2", CultureInfo.InvariantCulture) + separator + (code % 1000).ToString("D3", CultureInfo.InvariantCulture),
+            6 => (code / 1000).ToString("D3", CultureInfo.InvariantCulture) + separator + (code % 1000).ToString("D3", CultureInfo.InvariantCulture),
+            7 => (code / 10000).ToString("D3", CultureInfo.InvariantCulture) + separator + (code % 1000).ToString("D4", CultureInfo.InvariantCulture),
+            8 => (code / 10000).ToString("D4", CultureInfo.InvariantCulture) + separator + (code % 10000).ToString("D4", CultureInfo.InvariantCulture),
+            9 => (code / 1000000).ToString("D3", CultureInfo.InvariantCulture) + separator + (code / 1000 % 1000).ToString("D3", CultureInfo.InvariantCulture) + separator + (code % 1000).ToString("D3", CultureInfo.InvariantCulture),
+            _ => code.ToString("D" + Digits.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture),
+        };
+    }
 
 
     private long CachedCounter = -1;
@@ -124,7 +156,7 @@ public abstract class Otp : IDisposable {
     /// Gets code for given number of digits and counter.
     /// </summary>
     /// <param name="counter">Counter value.</param>
-    protected int CalculateCode(long counter) {
+    private int CalculateCode(long counter) {
         if (CachedCounter == counter) { return CachedCode; }  // to avoid recalculation if all is the same
 
         var counterBytes = BitConverter.GetBytes(counter);
@@ -186,7 +218,14 @@ public abstract class Otp : IDisposable {
     /// Returns true if code has been validated.
     /// </summary>
     /// <param name="code">Code to validate.</param>
-    public abstract bool IsCodeValid(int code);
+    public bool IsCodeValid(int code) {
+        var currCode = CalculateCode(Counter);
+        var prevCode = CalculateCode(Counter - 1);
+
+        var isCurrValid = (code == currCode);
+        var isPrevValid = (code == prevCode) && (Counter > 0); //don't check previous code if counter is zero; but calculate it anyhow (to keep rough timing)
+        return isCurrValid || isPrevValid;
+    }
 
     #endregion Validate
 
@@ -405,6 +444,13 @@ public abstract class Otp : IDisposable {
     public void Dispose() {
         Dispose(disposing: true);
         GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Dispose the resources.
+    /// </summary>
+    ~Otp() {
+        Dispose(disposing: false);
     }
 
     #endregion IDispose
