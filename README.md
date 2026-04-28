@@ -24,5 +24,6 @@ var code = totp.GetCode();
 Counter-based:
 ~~~sh
 using var hotp = new CounterBasedOtp();
+hotp.Counter = 123;
 var code = hotp.GetCode();
 ~~~

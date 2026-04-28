@@ -13,4 +13,5 @@ while (true) {
     Console.WriteLine("Press any key for the next code...");
     var key = Console.ReadKey(true);
     if (key.Key == ConsoleKey.Escape) { break; }
+    hotp.Counter++;
 }

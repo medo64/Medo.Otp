@@ -3,6 +3,12 @@ CHANGELOG
 Changelog at https://github.com/medo64/Medo.Otp/blob/main/CHANGELOG.md
 
 
+[1.1.0] (2026-04-27)
+
+- Added text formatting
+- Cleaned up extra functions
+
+
 [1.0.0] (2026-04-27)
 
 - First release
