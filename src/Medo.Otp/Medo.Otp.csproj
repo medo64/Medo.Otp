@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Medo.Otp</AssemblyName>
+    <RootNamespace>Medo</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <NoWarn>CA5350, CA5401</NoWarn>
+    <!-- CA5401: Symmetric encryption uses non-default initialization vector, which could be potentially repeatable -->
+    <!-- CA5350: CalculateCode uses a weak cryptographic algorithm HMACSHA1 -->
+  </PropertyGroup>
+
+    <ItemGroup>
+      <InternalsVisibleTo Include="Medo.Otp.Tests" />
+    </ItemGroup>
+
+</Project>

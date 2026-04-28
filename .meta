@@ -1,0 +1,5 @@
+PROJECT_NAME:             Medo.Otp
+PROJECT_ENTRYPOINT:       src/Medo.Otp/Medo.Otp.csproj
+PACKAGE_NUGET:            Medo.Otp
+PACKAGE_NUGET_ENTRYPOINT: src/MultiFramework/Medo.Otp.csproj
+PUBLISH_GITHUB_URL:       https://github.com/medo64/Medo.Otp

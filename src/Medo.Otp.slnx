@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/Examples/">
+    <Project Path="../examples/TimeOtpExample/TimeOtpExample.csproj" />
+    <Project Path="../examples/CounterOtpExample/CounterOtpExample.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="../tests/Medo.Otp.Tests/Medo.Otp.Tests.csproj" />
+  </Folder>
+  <Project Path="Medo.Otp/Medo.Otp.csproj" />
+</Solution>
