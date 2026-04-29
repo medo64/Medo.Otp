@@ -1,9 +1,11 @@
 using System;
 using Medo;
 
-var secret = "jbsw y3dp ehpk 3pxpjbsw y3dp ehpk 3pxp";
+var secret = "base32secret";
 
-var hotp = new CounterBasedOtp(secret);
+using var hotp = new CounterBasedOtp(secret) {
+    Counter = 123,
+};
 while (true) {
     var counter = hotp.Counter;
     var code = hotp.GetCode();

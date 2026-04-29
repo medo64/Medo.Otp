@@ -1,8 +1,8 @@
 using System;
 using Medo;
 
-var secret = "jbsw y3dp ehpk 3pxpjbsw y3dp ehpk 3pxp";
+var secret = "base32secret";
 
-var totp = new TimeBasedOtp(secret);
+using var totp = new TimeBasedOtp(secret);
 var code = totp.GetCode();
 Console.WriteLine($"Code: {code}");

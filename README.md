@@ -15,15 +15,35 @@ for their 6-digit variant used in two-factor setups.
 
 ## Example
 
-Time-based:
+### Time-based
+
 ~~~sh
+// setup
+var secret = "base32secret";
 using var totp = new TimeBasedOtp();
+
+// creation
 var code = totp.GetCode();
+
+// validation
+if (totp.IsCodeValid(code) {
+    // TODO
+}
 ~~~
 
-Counter-based:
+### Counter-based
+
 ~~~sh
-using var hotp = new CounterBasedOtp();
-hotp.Counter = 123;
+var secret = "base32secret";
+using var hotp = new CounterBasedOtp(secret) {
+    Counter = 0,
+};
+
+// creation
 var code = hotp.GetCode();
+
+// validation
+if (hotp.IsCodeValid(code) {
+    // TODO
+}
 ~~~
